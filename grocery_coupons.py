@@ -14,17 +14,24 @@ browser = None
 def initialize():
     global browser
 
-    path = os.getenv('GOOGLE_CHROME_SHIM') or None
+    #path = os.getenv('GOOGLE_CHROME_SHIM') or None
 
-    options = webdriver.ChromeOptions()
-    options.binary_location = path
+    #options = webdriver.ChromeOptions()
+    #options.binary_location = path
     #options.add_experimental_option('w3c', False)
     #if path:
     #    options.add_argument('headless')
 
-    executable_path = 'chromedriver' if 'DYNO' in os.environ else './chromedriver'
+    #executable_path = 'chromedriver' if 'DYNO' in os.environ else './chromedriver'
     #browser = webdriver.Chrome(executable_path=executable_path, options = options)
-    browser = uc.Chrome(executable_path=executable_path, options = options)
+    #browser = uc.Chrome(executable_path=executable_path, options = options)
+    
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
     print('Using ' + (path or executable_path))
 
